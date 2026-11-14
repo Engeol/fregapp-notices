@@ -1,0 +1,6 @@
+{
+  "scheduler/call-endpoint.mjs": "4b424b6977131ab00764712c9cc774ac5ea4de522169edc017b5914a973865bf",
+  "scheduler/call-endpoint.test.mjs": "1c532dd99fcf484d24366dc7f12fff24aacdf8a5fb0080be3853e0d6996ec052",
+  ".github/workflows/notices.yml": "66838c4487d6da7a8842d7de00c6bf37ebc9287d07466392badbdb9d9bc83684",
+  "README.md": "07a0f1226fd61e4d6b131082d2f627444400fa43c7fd448800f9919a73748db1"
+}
