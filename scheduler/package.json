@@ -1,0 +1,29 @@
+{
+  "name": "fregapp-free-notification-scheduler",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node --import tsx run.ts",
+    "test": "node --import tsx --test plan.test.ts free-project.test.ts http.test.ts runtime.test.ts engine.guard.test.ts call-endpoint.test.mjs",
+    "test:integration": "node --import tsx --test integration.test.ts engine.integration.test.ts"
+  },
+  "dependencies": {
+    "firebase-admin": "^13.10.0",
+    "tsx": "^4.23.15",
+    "web-push": "^4.0.0"
+  },
+  "overrides": {
+    "google-gax@4.6.1": {
+      "uuid": "11.1.1"
+    },
+    "gaxios@6.7.1": {
+      "uuid": "11.1.1"
+    },
+    "teeny-request@9.0.0": {
+      "uuid": "11.1.1"
+    }
+  },
+  "devDependencies": {
+    "@types/web-push": "^3.6.4"
+  }
+}

@@ -1,5 +1,4 @@
-# Template only: not installed in .github/workflows and cannot run automatically.
-# Template only. External activation still needs an explicit review and approval.
+# Review template. Publish only after checking the generated allowlist bundle.
 name: Free household notices
 on:
   schedule:
@@ -14,15 +13,27 @@ concurrency:
   cancel-in-progress: false
 jobs:
   notices:
-    if: vars.FREGAPP_FREE_DELIVERY_APPROVED == '1'
+    if: vars.FREGAPP_FREE_DELIVERY_APPROVED == '1' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: scheduler
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: '22'
-      - run: node scheduler/call-endpoint.mjs
+          cache: npm
+          cache-dependency-path: scheduler/package-lock.json
+      - run: npm ci --omit=dev
+      - run: node --import tsx run.ts --live
         env:
-          FREGAPP_HTTP_PUSH_URL: ${{ secrets.FREGAPP_HTTP_PUSH_URL }}
-          FREGAPP_HTTP_PUSH_HMAC_SECRET: ${{ secrets.FREGAPP_HTTP_PUSH_HMAC_SECRET }}
+          FREGAPP_FREE_DELIVERY_APPROVED: ${{ vars.FREGAPP_FREE_DELIVERY_APPROVED }}
+          FIREBASE_PROJECT_ID: fregapp
+          FIRESTORE_DATABASE_ID: '(default)'
+          FIREBASE_SERVICE_ACCOUNT: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          FREGAPP_HOUSEHOLD_ID: ${{ secrets.FREGAPP_HOUSEHOLD_ID }}
+          VAPID_PUBLIC_KEY: ${{ secrets.VAPID_PUBLIC_KEY }}
+          VAPID_PRIVATE_KEY: ${{ secrets.VAPID_PRIVATE_KEY }}
+          VAPID_SUBJECT: ${{ secrets.VAPID_SUBJECT }}
